@@ -34,3 +34,19 @@ def create():
 def show(id):
     book = book_repository.select(id)
     return render_template("books/show.html", book=book)
+
+@books_blueprint.route('/books/<id>/edit')
+def edit(id):
+    book = book_repository.select(id)
+    authors = author_repository.select_all()
+    return render_template('/books/edit.html', book=book, all_authors=authors)
+
+@books_blueprint.route('/books/<id>', methods=['POST'])
+def update(id):
+    title = request.form['title']
+    genre     = request.form['genre']
+    author_id    = request.form['author_id']
+    author = author_repository.select(author_id)
+    book = Book(title, genre, author, id)
+    book_repository.update(book)
+    return redirect(f'/books/{id}')

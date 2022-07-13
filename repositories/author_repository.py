@@ -32,3 +32,8 @@ def select(id):
     if result is not None:
         author = Author(result['name'], result['id'] )
     return author
+
+def delete(id):
+    sql = "DELETE  FROM books WHERE id = %s"
+    values = [id]
+    run_sql(sql, values)
